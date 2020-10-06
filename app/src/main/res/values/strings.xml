@@ -12,4 +12,12 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+    
+    
+<!--    movies-->
+    <string name="audio_pause">Zatrzymaj</string>
+    <string name="audio_play">Odtwórz</string>
+    <string name="main_subtitle">z dziećmi</string>
+    <string name="audio_previous">Poprzedni</string>
+    <string name="audio_next">Następny</string>
 </resources>

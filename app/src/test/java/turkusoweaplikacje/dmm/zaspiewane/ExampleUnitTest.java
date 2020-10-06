@@ -1,5 +1,6 @@
 package turkusoweaplikacje.dmm.zaspiewane;
 
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,7 +12,39 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void checkTests() {
+        Movies movies = new Movies();
+        assertEquals(2, movies.thisIsFunctionToCheckTest());
+    }
+
+    @Test
+    public void applicationGetsVideoList(){
+        //given
+        //when
+        //then
+    }
+
+
+    @Test
+    public void applicationDisplaysVideo(){
+        //given
+        //when
+        //then
+    }
+
+
+    @Test
+    public void applicationDisplaysVideosOneAfterAnotherUntilEndOfTheList(){
+        //given
+        //when
+        //then
+    }
+
+
+    @Test
+    public void testName(){
+        //given
+        //when
+        //then
     }
 }

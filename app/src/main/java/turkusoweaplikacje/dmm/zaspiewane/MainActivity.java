@@ -1,5 +1,6 @@
 package turkusoweaplikacje.dmm.zaspiewane;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -16,9 +17,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.ARRAY_SIZE;
+import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_IMAGE_URL;
+import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_NUMBER;
+import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_PLAY_URL;
+import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_ROOM_TITLE;
+import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_TITLE;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private String[] audioPath;
+    private int arraySize = 2;
+    private String[] audioTitle;
+    private String[] imagePaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                openMovieClass();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -47,6 +58,27 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    private void openMovieClass(){
+        audioPath = new String[arraySize];
+        audioPath[0] = "android.resource://" + getPackageName() + "/" + R.raw.byl_sobie_krol;
+        audioPath[1] = "android.resource://" + getPackageName() + "/" + R.raw.byl_sobie_krol;
+        audioTitle = new String[arraySize];
+        audioTitle[0] = "Idzie wąż";
+        audioTitle[1] = "Rozpoczynajka";
+        imagePaths = new String[arraySize];
+        imagePaths[0] = "android.resource://" + getPackageName() + "/" + R.mipmap.headphones;
+        imagePaths[1] = "android.resource://" + getPackageName() + "/" + R.mipmap.ic_launcher;
+
+        Intent audioIntent = new Intent(this, MovieDisplayActivity.class);
+        audioIntent.putExtra(EPISODE_PLAY_URL,audioPath);
+        audioIntent.putExtra(EPISODE_IMAGE_URL,imagePaths);
+        audioIntent.putExtra(EPISODE_ROOM_TITLE,getResources().getString(R.string.app_name));
+        audioIntent.putExtra(EPISODE_TITLE,audioTitle);
+        audioIntent.putExtra(EPISODE_NUMBER,1);
+        audioIntent.putExtra(ARRAY_SIZE,arraySize);
+        startActivity(audioIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -60,4 +92,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }

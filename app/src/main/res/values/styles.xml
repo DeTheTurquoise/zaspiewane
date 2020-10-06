@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="fontFamily">@font/opensans</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,5 +17,49 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MainTitle" parent="AppTheme">
+        <item name="android:fontFamily">@font/italianno</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+
+
+    <style name="MainSubtitle" parent="MainTitle">
+        <item name="android:textSize">25dp</item>
+    </style>
+
+
+    <style name="HeaderTitle" parent="AppTheme">
+        <item name="android:fontFamily">@font/marcellus</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="RoomName" parent="HeaderTitle">
+        <item name="android:textSize">25dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+
+    <style name="EpisodeTitle" parent="RoomName">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="ListElement" parent="RoomName">
+        <item name="android:textSize">15dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <style name="Description" parent="HeaderTitle">
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="TipText" parent="HeaderTitle">
+        <item name="android:textSize">20dp</item>
+    </style>
+
 
 </resources>
