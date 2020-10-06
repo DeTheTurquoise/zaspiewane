@@ -39,26 +39,25 @@
         app:layout_constraintBottom_toTopOf="@id/general_title_guideline"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <VideoView
-        android:id="@+id/general_video"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+<!--    <VideoView-->
+<!--        android:id="@+id/general_video"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
 
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/general_playerView"/>
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/general_playerView"/>-->
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/general_playerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
         app:show_timeout="0"
         app:hide_on_touch="false"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/general_player_guideline" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

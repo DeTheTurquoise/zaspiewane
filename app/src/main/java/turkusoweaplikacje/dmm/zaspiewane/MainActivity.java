@@ -26,9 +26,10 @@ import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_TITLE;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private AppBarConfiguration mAppBarConfiguration;
-    private String[] audioPath;
-    private int arraySize = 2;
+    private int[] audioPath;
+    private int arraySize = 4;
     private String[] audioTitle;
     private String[] imagePaths;
 
@@ -59,9 +60,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openMovieClass(){
-        audioPath = new String[arraySize];
-        audioPath[0] = "android.resource://" + getPackageName() + "/" + R.raw.byl_sobie_krol;
-        audioPath[1] = "android.resource://" + getPackageName() + "/" + R.raw.byl_sobie_krol;
+        audioPath = new int[arraySize];
+
+        audioPath[0] = R.raw.papa;
+        audioPath[1] =  R.raw.byl_sobie_krol;
+        audioPath[2] = R.raw.chusteczka;
+        audioPath[3] = R.raw.kaczka_pstra;
+
         audioTitle = new String[arraySize];
         audioTitle[0] = "Idzie wąż";
         audioTitle[1] = "Rozpoczynajka";
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         audioIntent.putExtra(EPISODE_IMAGE_URL,imagePaths);
         audioIntent.putExtra(EPISODE_ROOM_TITLE,getResources().getString(R.string.app_name));
         audioIntent.putExtra(EPISODE_TITLE,audioTitle);
-        audioIntent.putExtra(EPISODE_NUMBER,1);
+        audioIntent.putExtra(EPISODE_NUMBER,0);
         audioIntent.putExtra(ARRAY_SIZE,arraySize);
         startActivity(audioIntent);
     }

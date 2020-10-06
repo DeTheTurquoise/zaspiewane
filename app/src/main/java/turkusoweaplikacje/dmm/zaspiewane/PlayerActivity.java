@@ -34,7 +34,9 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.RawResourceDataSource;
 import com.google.android.exoplayer2.util.Util;
 
 public class PlayerActivity extends AppCompatActivity implements View.OnClickListener, ExoPlayer.EventListener{
@@ -44,7 +46,7 @@ private static MediaSessionCompat mediaSession;
 private PlaybackStateCompat.Builder stateBuilder;
 protected TextView roomTitle;
 protected TextView episodeTitle;
-private String[] playerList;
+private int[] playerList;
 protected int currentEpisode;
 private NotificationManager notificationManager;
 private int NOTIFICATION_ID = 234;
@@ -81,10 +83,10 @@ public void setRoomTitle(TextView roomTitle, String title) {
 
 public void setEpisodeTitle(TextView episodeTitle, String title) {
         this.episodeTitle = episodeTitle;
-        this.episodeTitle.setText(title);
+//        this.episodeTitle.setText(title);
         }
 
-public void setPlayerList(String[] list, int episode){
+public void setPlayerList(int[] list, int episode){
         this.playerList = list;
         this.currentEpisode = episode;
         }
@@ -120,12 +122,17 @@ public void initializePlayer() {
         exoPlayer.addListener(this);
 
         }
-//        Uri mediaUri = Uri.parse(playerList[currentEpisode]);
 
-        String userAgent = Util.getUserAgent(this, String.valueOf(R.string.app_name));
-//        MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
-//        this, userAgent), new DefaultExtractorsFactory(), null, null);
-//        exoPlayer.prepare(mediaSource);
+
+    String userAgent = Util.getUserAgent(this, String.valueOf(R.string.app_name));
+
+    //    MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(
+    //    this, userAgent), new DefaultExtractorsFactory(), null, null);
+    DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "yourApplicationName"));
+
+    MediaSource firstSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(RawResourceDataSource.buildRawResourceUri(playerList[currentEpisode]));
+
+    exoPlayer.prepare(firstSource);
         exoPlayer.setPlayWhenReady(false);
         //  }
         }
@@ -180,8 +187,9 @@ private void showNotification(PlaybackStateCompat state) {
         PendingIntent contentPendingIntent = PendingIntent.getActivity
         (this, 0, new Intent(this, PlayerActivity.class), 0);
 
-        builder.setContentTitle(roomTitle.getText())
-        .setContentText(episodeTitle.getText())
+        builder
+                //.setContentTitle(roomTitle.getText())
+       // .setContentText(episodeTitle.getText())
         .setContentIntent(contentPendingIntent)
         .setSmallIcon(R.mipmap.headphones)
         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -257,7 +265,7 @@ public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
 public void onPlayerError(ExoPlaybackException error) {
         switch (error.type) {
         case ExoPlaybackException.TYPE_SOURCE:
-        Toast.makeText(this,"mmm",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Wrong type source",Toast.LENGTH_LONG).show();
         Log.e("hmm", "TYPE_SOURCE: " + error.getSourceException().getMessage());
         break;
 

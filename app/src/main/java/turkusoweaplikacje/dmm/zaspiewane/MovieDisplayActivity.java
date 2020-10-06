@@ -30,7 +30,6 @@ public class MovieDisplayActivity  extends PlayerActivity{
     private static int episodeNumber = DEFAULT_INT_VALUE;
     private ImageView episodeImage;
     private TextView episodeSubtitle;
-    private VideoView videoView;
     private static String[] imagePath;
     private static String[] audioTitle;
 
@@ -44,12 +43,12 @@ public class MovieDisplayActivity  extends PlayerActivity{
         if(audioIntent.hasExtra(ARRAY_SIZE)){
             arraySize = audioIntent.getIntExtra(ARRAY_SIZE, DEFAULT_INT_VALUE);
         }
-        String[] audioPath = new String[arraySize];
+        int[] audioPath = new int[arraySize];
         imagePath = new String[arraySize];
         String roomName = "";
         audioTitle = new String[arraySize];
         if(audioIntent.hasExtra(EPISODE_PLAY_URL)){
-            audioPath = audioIntent.getStringArrayExtra(EPISODE_PLAY_URL);
+            audioPath = audioIntent.getIntArrayExtra(EPISODE_PLAY_URL);
         }
         if(audioIntent.hasExtra(EPISODE_TITLE)){
             audioTitle = audioIntent.getStringArrayExtra(EPISODE_TITLE);
@@ -69,18 +68,15 @@ public class MovieDisplayActivity  extends PlayerActivity{
         roomTitle.setText(getString(R.string.app_name) + "\n" + roomName);
 
         episodeImage = findViewById(R.id.audio_iv_episode);
-        videoView = findViewById(R.id.general_video);
         getImageForEpisode();
-        setRoomTitle((TextView) findViewById(R.id.exo_room_name),roomName);
-        episodeSubtitle = findViewById(R.id.exo_episode_name);
-        setEpisodeTitle(episodeSubtitle ,audioTitle[currentEpisode]);
+//        setRoomTitle((TextView) findViewById(R.id.exo_room_name),roomName);
+//        episodeSubtitle = findViewById(R.id.exo_episode_name);
+//        setEpisodeTitle(episodeSubtitle ,audioTitle[currentEpisode]);
         setPlayerView((SimpleExoPlayerView) findViewById(R.id.general_playerView));
         initializeMediaSession();
 
         setPlayerList(audioPath,currentEpisode);
         initializePlayer();
-        videoView.setVideoURI(Uri.parse(audioPath[currentEpisode]));
-        videoView.start();
 
     }
 
