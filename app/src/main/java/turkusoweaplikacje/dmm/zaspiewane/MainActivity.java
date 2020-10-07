@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -16,22 +15,28 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.ARRAY_SIZE;
-import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_IMAGE_URL;
-import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_NUMBER;
-import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_PLAY_URL;
-import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_ROOM_TITLE;
-import static turkusoweaplikacje.dmm.zaspiewane.ListOfExcercises.EPISODE_TITLE;
+import turkusoweaplikacje.dmm.zaspiewane.adapters.LessonListAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LessonListAdapter.ListItemClickListener{
 
+    public static final String EPISODE_IMAGE_URL = "dmm.zaspiewane.EPISODE_IMAGE_URL";
+    public static final String EPISODE_PLAY_URL = "dmm.zaspiewane.EPISODE_PLAY_URL";
+    public static final String EPISODE_TITLE = "dmm.zaspiewane.EPISODE_TITLE";
+    public static final String EPISODE_ROOM_TITLE = "dmm.zaspiewane.EPISODE_ROOM_TITLE";
+    public static final String EPISODE_NUMBER = "dmm.zaspiewane.EPISODE_NUMBER";
+    public static final String ARRAY_SIZE = "dmm.zaspiewane.ARRAY_SIZE";
+
+    private RecyclerView recyclerView;
+    private LessonListAdapter lessonListAdapter;
+    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
     private AppBarConfiguration mAppBarConfiguration;
     private int[] audioPath;
     private int arraySize = 4;
     private String[] audioTitle;
-    private String[] imagePaths;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,30 +62,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        prepareListOfVideos();
     }
 
     private void openMovieClass(){
-        audioPath = new int[arraySize];
-
-        audioPath[0] = R.raw.papa;
-        audioPath[1] =  R.raw.byl_sobie_krol;
-        audioPath[2] = R.raw.chusteczka;
-        audioPath[3] = R.raw.kaczka_pstra;
-
-        audioTitle = new String[arraySize];
-        audioTitle[0] = "Idzie wąż";
-        audioTitle[1] = "Rozpoczynajka";
-        imagePaths = new String[arraySize];
-        imagePaths[0] = "android.resource://" + getPackageName() + "/" + R.mipmap.headphones;
-        imagePaths[1] = "android.resource://" + getPackageName() + "/" + R.mipmap.ic_launcher;
-
-        Intent audioIntent = new Intent(this, MovieDisplayActivity.class);
-        audioIntent.putExtra(EPISODE_PLAY_URL,audioPath);
-        audioIntent.putExtra(EPISODE_IMAGE_URL,imagePaths);
-        audioIntent.putExtra(EPISODE_ROOM_TITLE,getResources().getString(R.string.app_name));
-        audioIntent.putExtra(EPISODE_TITLE,audioTitle);
-        audioIntent.putExtra(EPISODE_NUMBER,0);
-        audioIntent.putExtra(ARRAY_SIZE,arraySize);
+        Intent audioIntent = preparePlaylistSettingsToDisplayList(audioPath,audioTitle,0);
         startActivity(audioIntent);
     }
 
@@ -98,5 +84,52 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+
+    @Override
+    public void onListItemClick(int[] path, String[] title, int episodeNumber){
+        Intent audioIntent = preparePlaylistSettingsToDisplayList(path,title,episodeNumber);
+        startActivity(audioIntent);
+    }
+
+    private Intent preparePlaylistSettingsToDisplayList(int[] path,  String[] title, int episodeNumber){
+        Intent audioIntent = new Intent(this, MovieDisplayActivity.class);
+        audioIntent.putExtra(EPISODE_PLAY_URL,path);
+        audioIntent.putExtra(EPISODE_ROOM_TITLE,getResources().getString(R.string.app_name));
+        audioIntent.putExtra(EPISODE_TITLE,title);
+        audioIntent.putExtra(EPISODE_NUMBER,episodeNumber);
+        audioIntent.putExtra(ARRAY_SIZE,arraySize);
+        return audioIntent;
+    }
+
+    private void prepareListOfVideos(){
+        audioPath = new int[arraySize];
+        audioPath[0] = R.raw.kaczka_pstra;
+        audioPath[1] = R.raw.chusteczka;
+        audioPath[2] = R.raw.byl_sobie_krol;
+        audioPath[3] = R.raw.papa;
+
+        audioTitle = new String[arraySize];
+        audioTitle[0] = "Kaczka pstra";
+        audioTitle[1] = "Chusteczka";
+        audioTitle[2] = "Był sobie król";
+        audioTitle[3] = "Pa Pa";
+
+        //time in miliseconds
+        long[] videoTime = new long[arraySize];
+        videoTime[0] = 59000;
+        videoTime[1] = 125000;
+        videoTime[2] = 132000;
+        videoTime[3] = 54000;
+
+        recyclerView = findViewById(R.id.episodes_rv_podcasts);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        lessonListAdapter = new LessonListAdapter(arraySize,this);
+
+        recyclerView.clearOnScrollListeners();
+        lessonListAdapter.setLessonParameters(audioTitle,audioPath,videoTime,arraySize);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(lessonListAdapter);
+    }
 
 }

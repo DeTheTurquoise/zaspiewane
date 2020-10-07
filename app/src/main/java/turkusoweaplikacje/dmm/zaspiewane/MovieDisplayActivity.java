@@ -29,8 +29,6 @@ public class MovieDisplayActivity  extends PlayerActivity{
     private static final int DEFAULT_INT_VALUE = 1;
     private static int episodeNumber = DEFAULT_INT_VALUE;
     private ImageView episodeImage;
-    private TextView episodeSubtitle;
-    private static String[] imagePath;
     private static String[] audioTitle;
 
     @Override
@@ -44,7 +42,6 @@ public class MovieDisplayActivity  extends PlayerActivity{
             arraySize = audioIntent.getIntExtra(ARRAY_SIZE, DEFAULT_INT_VALUE);
         }
         int[] audioPath = new int[arraySize];
-        imagePath = new String[arraySize];
         String roomName = "";
         audioTitle = new String[arraySize];
         if(audioIntent.hasExtra(EPISODE_PLAY_URL)){
@@ -52,9 +49,6 @@ public class MovieDisplayActivity  extends PlayerActivity{
         }
         if(audioIntent.hasExtra(EPISODE_TITLE)){
             audioTitle = audioIntent.getStringArrayExtra(EPISODE_TITLE);
-        }
-        if(audioIntent.hasExtra(EPISODE_IMAGE_URL)){
-            imagePath = audioIntent.getStringArrayExtra(EPISODE_IMAGE_URL);
         }
         if(audioIntent.hasExtra(EPISODE_ROOM_TITLE)){
             roomName = audioIntent.getStringExtra(EPISODE_ROOM_TITLE);
@@ -68,7 +62,7 @@ public class MovieDisplayActivity  extends PlayerActivity{
         roomTitle.setText(getString(R.string.app_name) + "\n" + roomName);
 
         episodeImage = findViewById(R.id.audio_iv_episode);
-        getImageForEpisode();
+ //       getImageForEpisode();
 //        setRoomTitle((TextView) findViewById(R.id.exo_room_name),roomName);
 //        episodeSubtitle = findViewById(R.id.exo_episode_name);
 //        setEpisodeTitle(episodeSubtitle ,audioTitle[currentEpisode]);
@@ -83,41 +77,11 @@ public class MovieDisplayActivity  extends PlayerActivity{
 
     @Override
     public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-        getImageForEpisode();
-        setEpisodeTitle(episodeSubtitle ,audioTitle[currentEpisode]);
+       // getImageForEpisode();
+    //    setEpisodeTitle(episodeSubtitle ,audioTitle[currentEpisode]);
         exoPlayer.setPlayWhenReady(true);
     }
 
-    private void getImageForEpisode(){
-//        new DownloadImageTask().execute(imagePath[currentEpisode]);
-//        episodeImage.setScaleType(ImageView.ScaleType.FIT_XY);
-        episodeImage.setImageResource(R.mipmap.ic_launcher);
-    }
 
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        // ImageView bmImage;
-
-        public DownloadImageTask() {
-            //        this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            episodeImage.setImageBitmap(result);
-        }
-    }
 
 }

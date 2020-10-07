@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import turkusoweaplikacje.dmm.zaspiewane.adapters.LessonListAdapter;
 
-public class ListOfExcercises extends AppCompatActivity implements LessonListAdapter.ListItemClickListener{
+public class ListOfExcercises extends AppCompatActivity
+        //implements LessonListAdapter.ListItemClickListener
+        {
 
     public static final String EPISODE_IMAGE_URL = "dmm.zaspiewane.EPISODE_IMAGE_URL";
     public static final String EPISODE_PLAY_URL = "dmm.zaspiewane.EPISODE_PLAY_URL";
@@ -62,7 +64,7 @@ public class ListOfExcercises extends AppCompatActivity implements LessonListAda
         recyclerView = (RecyclerView) findViewById(R.id.episodes_rv_podcasts);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        lessonListAdapter = new LessonListAdapter(numberOfResultsToDisplay,this);
+//        lessonListAdapter = new LessonListAdapter(numberOfResultsToDisplay,this);
 
 //        setPlayArray(roomNumber);
 //
@@ -99,7 +101,7 @@ public class ListOfExcercises extends AppCompatActivity implements LessonListAda
 //        }
 //    }
 
-    @Override
+ //   @Override
     public void onListItemClick(String[] path, String[] image, String[] title, int episodeNumber){
         Intent audioIntent = new Intent(this, MovieDisplayActivity.class);
         audioIntent.putExtra(EPISODE_PLAY_URL,path);

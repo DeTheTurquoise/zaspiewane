@@ -14,14 +14,13 @@ public class LessonListAdapter extends RecyclerView.Adapter<LessonListAdapter.Nu
 
     private int numberOfResultsToDisplay;
     private String[] lessonName;
-    private String[] lessonPath;
-    private String[] imagePath;
+    private int[] lessonPath;
     private long[] lessonTime;
 
     final private ListItemClickListener onClickListener;
 
     public interface ListItemClickListener {
-        void onListItemClick(String[] path, String[] image, String[] title, int episodeNumber);
+        void onListItemClick(int[] path,  String[] title, int episodeNumber);
     }
 
     public LessonListAdapter(int numberOfResultsToDisplay, ListItemClickListener listener){
@@ -29,11 +28,10 @@ public class LessonListAdapter extends RecyclerView.Adapter<LessonListAdapter.Nu
         this.onClickListener = listener;
     }
 
-    public void setLessonParameters(String[] names, String[] paths, String[] images, long[] time, int display){
+    public void setLessonParameters(String[] names, int[] paths, long[] time, int display){
         this.numberOfResultsToDisplay = display;
         this.lessonName = names;
         this.lessonPath = paths;
-        this.imagePath = images;
         this.lessonTime = time;
     }
 
@@ -61,12 +59,12 @@ public class LessonListAdapter extends RecyclerView.Adapter<LessonListAdapter.Nu
 
         private TextView episodeName;
         private TextView episodeTime;
-        private String buttonLink;
+        private int buttonLink;
 
         public NumberViewHolder(View itemView) {
             super(itemView);
-            episodeName = (TextView) itemView.findViewById(R.id.podcasts_tv_name);
-            episodeTime = (TextView) itemView.findViewById(R.id.podcasts_tv_time);
+            episodeName = itemView.findViewById(R.id.podcasts_tv_name);
+            episodeTime = itemView.findViewById(R.id.podcasts_tv_time);
             itemView.setOnClickListener(this);
         }
 
@@ -83,13 +81,17 @@ public class LessonListAdapter extends RecyclerView.Adapter<LessonListAdapter.Nu
         @Override
         public void onClick(View view){
             int clickedPosition = getAdapterPosition();
-            onClickListener.onListItemClick(lessonPath, imagePath, lessonName,clickedPosition);
+            onClickListener.onListItemClick(lessonPath, lessonName,clickedPosition);
         }
 
         private String getTimeFromLong(long longTime){
             int minutes = (int) longTime/60000;
             int seconds = (int) (longTime%60000)/1000;
-            return String.valueOf(minutes) + ":" + String.valueOf(seconds);
+            String zeroIfNeeded = "";
+            if (seconds<10){
+                zeroIfNeeded = "0";
+            }
+            return String.valueOf(minutes) + ":" + zeroIfNeeded + String.valueOf(seconds);
         }
 
     }
