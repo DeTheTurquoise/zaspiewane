@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 *.mkv
+*.apk
+output.json
